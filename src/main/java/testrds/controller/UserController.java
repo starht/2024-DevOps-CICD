@@ -16,11 +16,11 @@ import java.util.stream.Collectors;
 public class UserController {
   private final UserService userService;
 
-  @GetMapping("/users")
+  @GetMapping
   public List<UserResponseDTO> getUsers() {
     List<UserResponseDTO> users = userService.getUserList()
         .stream()
-        .map(u -> new UserResponseDTO(u.getId(), u.getName()))
+        .map(u -> new UserResponseDTO(u.getId(), u.getName(), u.getEmail()))
         .collect(Collectors.toList());
     return users;
   }
@@ -28,7 +28,7 @@ public class UserController {
   @PostMapping("/add")
   public UserResponseDTO createNewUser(@RequestBody UserCreateDTO userDto){
     User user = userService.createUser(userDto);
-    return new UserResponseDTO(user.getId(), user.getName());
+    return new UserResponseDTO(user.getId(), user.getName(), user.getEmail());
   }
 
 }
