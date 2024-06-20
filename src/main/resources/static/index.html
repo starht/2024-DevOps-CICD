@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <style>
+    .center{
+        display: flex;
+        justify-content: center;
+    }
+  </style>
+</head>
+<body>
+<h2 class="center">RDS, S3 연습하기</h2>
+<hr>
+<div class="container w-75 mt-5 mx-auto">
+  <div class="card w-75 mx-auto">
+    <img class="card-img-top" src="https://star2thb-sample.s3.ap-northeast-2.amazonaws.com/jpa.png" alt="s3" width="200" height="450" />
+    <div class="card-body">
+      <h4 class="card-body center">JPA</h4>
+    </div>
+  </div>
+</div>
+<div class="container w-75 mt-5 mx-auto">
+  <table class="table table-bordered">
+    <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+    </tr>
+    </thead>
+    <tbody id="user-table-body">
+    </tbody>
+  </table>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('http://localhost:8080/users')
+            .then(response => response.json())
+            .then(data => {
+                if (Array.isArray(data)) {
+                    const userTableBody = document.getElementById('user-table-body');
+                    data.forEach(user => {
+                        const row = document.createElement('tr');
+                        const idCell = document.createElement('td');
+                        const nameCell = document.createElement('td');
+                        const emailCell = document.createElement('td');
+
+                        idCell.textContent = user.id;
+                        nameCell.textContent = user.name;
+                        emailCell.textContent = user.email;
+
+                        row.appendChild(idCell);
+                        row.appendChild(nameCell);
+                        row.appendChild(emailCell)
+                        userTableBody.appendChild(row);
+                    });
+                } else {
+                    console.error('잘못된 데이터 형식:', data);
+                }
+            })
+            .catch(error => console.error('사용자 데이터 가져오기 오류:', error));
+    });
+</script>
+</body>
+</html>
