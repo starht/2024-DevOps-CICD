@@ -15,7 +15,9 @@ import static org.assertj.core.api.Assertions.assertThat;
     "spring.datasource.url=jdbc:h2:mem:testdb",
     "spring.datasource.driver-class-name=org.h2.Driver",
     "spring.datasource.username=sa",
-    "spring.datasource.password=password"
+    "spring.datasource.password=password",
+    "spring.jpa.hibernate.ddl-auto=create-drop",
+    "spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect"
 })
 public class UserServiceTest {
   @Autowired
