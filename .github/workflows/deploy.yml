@@ -20,7 +20,7 @@ jobs:
           java-version: '17'
 
       - name: application.yml 생성하기
-        run: echo ${{ secrets.APPLICATION_YML }} | base64 --decode > ./src/main/resources/application.yml
+        run: echo ${{ secrets.APPLICATION_YML }} > ./src/main/resources/application.yml
 
       - name: 테스트 및 빌드하기
         run: |
@@ -31,7 +31,13 @@ jobs:
         run: mv ./build/libs/*SNAPSHOT.jar ./app.jar
 
 #      - name: EC2 로 jar 파일 전송하기
-#        run:
+#        uses: appleboy/scp-action@v0.1.7
+#        with:
+#          host: ${{ secrets.EC2_HOST }}
+#          username: ${{ secrets.EC2_USERNAME }}
+#          password: ${{ secrets.EC2_PRIVATE_KEY }}
+#          source: ./app.jar
+#          target:
 #
 #      - name: SSH 로 EC2 에 접속하기(프로세스 실행)
 #        run:
