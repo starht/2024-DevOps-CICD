@@ -11,9 +11,6 @@ jobs:
 
     steps:
       - name: application.yml 생성
-        run: |
-        pwd
-        ls ./src/main
-        echo ${{ secrets.APPLICATION_YML }} > ./src/main/resources/application.yml
+        run: echo ${{ secrets.APPLICATION_YML }} > ./src/main/resources/application.yml
 
 
