@@ -54,7 +54,7 @@ jobs:
             mv /home/ubuntu/project/tobe/app.jar /home/ubuntu/project/cur/app.jar
             cd /home/ubuntu/project/cur
             sudo fuser -k -n tcp 8080 || true
-            sudo nohub java -jar app.jar > ./output.log 2>&1 &
+            sudo nohup java -jar app.jar > ./output.log 2>&1 &
             rm -rf /home/ubuntu/project/tobe
             
             
