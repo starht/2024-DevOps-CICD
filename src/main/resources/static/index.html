@@ -23,48 +23,48 @@
     </div>
   </div>
 </div>
-<div class="container w-75 mt-5 mx-auto">
-  <table class="table table-bordered">
-    <thead class="table-dark">
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Email</th>
-    </tr>
-    </thead>
-    <tbody id="user-table-body">
-    </tbody>
-  </table>
-</div>
+<!--<div class="container w-75 mt-5 mx-auto">-->
+<!--  <table class="table table-bordered">-->
+<!--    <thead class="table-dark">-->
+<!--    <tr>-->
+<!--      <th>ID</th>-->
+<!--      <th>Name</th>-->
+<!--      <th>Email</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody id="user-table-body">-->
+<!--    </tbody>-->
+<!--  </table>-->
+<!--</div>-->
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        fetch('http://localhost:8080/users')
-            .then(response => response.json())
-            .then(data => {
-                if (Array.isArray(data)) {
-                    const userTableBody = document.getElementById('user-table-body');
-                    data.forEach(user => {
-                        const row = document.createElement('tr');
-                        const idCell = document.createElement('td');
-                        const nameCell = document.createElement('td');
-                        const emailCell = document.createElement('td');
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', function() {-->
+<!--        fetch('http://localhost:8080/users')-->
+<!--            .then(response => response.json())-->
+<!--            .then(data => {-->
+<!--                if (Array.isArray(data)) {-->
+<!--                    const userTableBody = document.getElementById('user-table-body');-->
+<!--                    data.forEach(user => {-->
+<!--                        const row = document.createElement('tr');-->
+<!--                        const idCell = document.createElement('td');-->
+<!--                        const nameCell = document.createElement('td');-->
+<!--                        const emailCell = document.createElement('td');-->
 
-                        idCell.textContent = user.id;
-                        nameCell.textContent = user.name;
-                        emailCell.textContent = user.email;
+<!--                        idCell.textContent = user.id;-->
+<!--                        nameCell.textContent = user.name;-->
+<!--                        emailCell.textContent = user.email;-->
 
-                        row.appendChild(idCell);
-                        row.appendChild(nameCell);
-                        row.appendChild(emailCell)
-                        userTableBody.appendChild(row);
-                    });
-                } else {
-                    console.error('잘못된 데이터 형식:', data);
-                }
-            })
-            .catch(error => console.error('사용자 데이터 가져오기 오류:', error));
-    });
-</script>
+<!--                        row.appendChild(idCell);-->
+<!--                        row.appendChild(nameCell);-->
+<!--                        row.appendChild(emailCell)-->
+<!--                        userTableBody.appendChild(row);-->
+<!--                    });-->
+<!--                } else {-->
+<!--                    console.error('잘못된 데이터 형식:', data);-->
+<!--                }-->
+<!--            })-->
+<!--            .catch(error => console.error('사용자 데이터 가져오기 오류:', error));-->
+<!--    });-->
+<!--</script>-->
 </body>
 </html>
