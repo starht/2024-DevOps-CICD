@@ -44,7 +44,7 @@ jobs:
           docker tag web-server ${{ steps.login-ecr.outputs.registry }}/web-server:latest
 
       - name: Docker 이미지 Push 하기
-        run: Docker push ${{ steps.login-ecr.outputs.registry }}/web-server:latest
+        run: docker push ${{ steps.login-ecr.outputs.registry }}/web-server:latest
 
       - name: SSH 로 EC2 에 접속하기(ECR 로부터 이미지 pull 하고 컨테이너 실행)
         uses: appleboy/ssh-action@v0.1.7
