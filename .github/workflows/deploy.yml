@@ -1,4 +1,4 @@
-name: Github Actions 실행하기
+name: 컨테이너 기반 배포하기
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  Manual-Deployment-Job:
+  Container-Based-Deployment-Job:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,20 +27,26 @@ jobs:
           chmod +x gradlew
           ./gradlew clean build
 
-      - name: jar 파일명 변경하기
-        run: mv ./build/libs/*SNAPSHOT.jar ./app.jar
-
-      - name: EC2 로 jar 파일 전송하기
-        uses: appleboy/scp-action@v0.1.7
+      - name: AWS ECR 접근하기 위한 AWS credentials 설정하기
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_PRIVATE_KEY }}
-          port: ${{ secrets.EC2_PORT }}
-          source: ./app.jar
-          target: /home/ubuntu/project/tobe/
+          aws-region: ap-northeast-2
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: SSH 로 EC2 에 접속하기(프로세스 실행)
+      - name: AWS private ECR 로그인하기
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Docker 이미지 생성하고 tag 붙이기
+        run: |
+          docker build -t web-server .
+          docker tag web-server ${{ steps.login-ecr.outputs.registry }}/web-server:latest
+
+      - name: Docker 이미지 Push 하기
+        run: Docker push ${{ steps.login-ecr.outputs.registry }}/web-server:latest
+
+      - name: SSH 로 EC2 에 접속하기(ECR 로부터 이미지 pull 하고 컨테이너 실행)
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -49,13 +55,14 @@ jobs:
           port: ${{ secrets.EC2_PORT }}
           script_stop: true
           script: |
-            rm -rf /home/ubuntu/project/cur || true
-            mkdir /home/ubuntu/project/cur
-            mv /home/ubuntu/project/tobe/app.jar /home/ubuntu/project/cur/app.jar
-            cd /home/ubuntu/project/cur
+            docker stop web-server || true
+            docker rm web-server || true
+            docker pull ${{ steps.login-ecr.outputs.registry }}/web-server:latest
+            docker run ${{ steps.login-ecr.outputs.registry }}/web-server:latest
+            docker run -d --name web-server -p 8080:8080 ${{ steps.login-ecr.outputs.registry }}/web-server:latest
             sudo fuser -k -n tcp 8080 || true
-            sudo nohup java -jar app.jar > ./output.log 2>&1 &
-            rm -rf /home/ubuntu/project/tobe
+            
+            
             
             
 
