@@ -28,7 +28,7 @@ jobs:
           ./gradlew clean build
 
       - name: jar 파일명 변경하기
-        run: mv ./build/libs/*SANPSHOT.jar ./app.jar
+        run: mv ./build/libs/*SNAPSHOT.jar ./app.jar
 
 #      - name: EC2 로 jar 파일 전송하기
 #        run:
