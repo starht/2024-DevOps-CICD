@@ -41,7 +41,7 @@ jobs:
           target: /home/ubuntu/project/tobe/
 
       - name: SSH 로 EC2 에 접속하기(프로세스 실행)
-        uses: appleboy/ssh-action@0.1.6
+        uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
