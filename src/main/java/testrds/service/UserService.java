@@ -19,10 +19,7 @@ public class UserService {
   }
 
   public User createUser(UserCreateDTO userDto) {
-    User user = new User();
-    user.setEmail(userDto.getEmail());
-    user.setName(userDto.getName());
-
+    User user = new User(userDto.getName(), userDto.getEmail());
     return userRepository.save(user);
   }
 }
