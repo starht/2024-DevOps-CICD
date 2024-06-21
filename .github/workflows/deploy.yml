@@ -1,4 +1,4 @@
-name : Github Actions 실행하기
+name: Github Actions 실행하기
 
 on:
   push:
@@ -17,3 +17,8 @@ jobs:
         run: |
           echo "multi - 1"
           echo "multi - 2"
+
+      - name: Github 변수 사용하기
+        run: |
+          echo $GITHUB_SHA
+          echo $GITHUB_REPOSITORY
