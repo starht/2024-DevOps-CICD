@@ -60,7 +60,7 @@ jobs:
             docker pull ${{ steps.login-ecr.outputs.registry }}/web-server:latest
             docker run ${{ steps.login-ecr.outputs.registry }}/web-server:latest
             docker run -d --name web-server -p 8080:8080 ${{ steps.login-ecr.outputs.registry }}/web-server:latest
-            sudo fuser -k -n tcp 8080 || true
+#            sudo fuser -k -n tcp 8080 || true
             
             
             
